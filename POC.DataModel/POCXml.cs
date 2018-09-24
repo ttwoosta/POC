@@ -1,15 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System.Data.Linq.Mapping;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace POC.DataModel
 {
+    [Table(Name ="dbo.ConversionXml")]
     public class POCXml
     {
-        public int Xml_id { get; set; }
-        public int Xml_TypeId { get; set; }
+        [Column(Name = "Xml_Id", IsPrimaryKey = true, IsDbGenerated =true)]
+        public int Id { get; set; }
+
+        [Column(Name ="Xml_TypeId", UpdateCheck =UpdateCheck.WhenChanged)]
+        public int XmlTypeId { get; set; }
+
+        [Column(Name ="XmlFile", DbType = "NVarChar(MAX)", UpdateCheck = UpdateCheck.WhenChanged)]
         public string XmlFile { get; set; }
 
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -28,8 +29,8 @@ namespace POC.DataModel
                 while (reader.Read())
                 {
                     POCXml xml = new POCXml();
-                    xml.Xml_id = int.Parse(reader[kId].ToString());
-                    xml.Xml_TypeId = int.Parse(reader[kTypeId].ToString());
+                    xml.Id = int.Parse(reader[kId].ToString());
+                    xml.XmlTypeId = int.Parse(reader[kTypeId].ToString());
                     xml.XmlFile = reader[kXmlFile].ToString();
 
                     // add to returned list
@@ -101,8 +102,8 @@ namespace POC.DataModel
             SqlCommand cmd = new SqlCommand(INSERT_STATEMENT);
 
             // add values to command
-            cmd.Parameters.AddWithValue("@Id", pXml.Xml_id);
-            cmd.Parameters.AddWithValue("@TypeId", pXml.Xml_TypeId);
+            cmd.Parameters.AddWithValue("@Id", pXml.Id);
+            cmd.Parameters.AddWithValue("@TypeId", pXml.XmlTypeId);
             cmd.Parameters.AddWithValue("@XmlFile", pXml.XmlFile);
 
             // return command
@@ -163,8 +164,8 @@ namespace POC.DataModel
             SqlCommand cmd = new SqlCommand(UPDATE_STATEMENT);
 
             // add values to command
-            cmd.Parameters.AddWithValue("@Id", pXml.Xml_id);
-            cmd.Parameters.AddWithValue("@TypeId", pXml.Xml_TypeId);
+            cmd.Parameters.AddWithValue("@Id", pXml.Id);
+            cmd.Parameters.AddWithValue("@TypeId", pXml.XmlTypeId);
             cmd.Parameters.AddWithValue("@XmlFile", pXml.XmlFile);
 
             // return command

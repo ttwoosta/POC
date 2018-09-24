@@ -8,13 +8,13 @@ namespace POC.DataModel
     [Table(Name ="dbo.ConversionXml")]
     public class POCXml
     {
-        [Column(Name = "Xml_Id", IsPrimaryKey = true, IsDbGenerated =true)]
-        public int Id { get; set; }
+        [Column(IsPrimaryKey = true, IsDbGenerated =true)]
+        public int Xml_Id { get; set; }
 
-        [Column(Name ="Xml_TypeId", UpdateCheck =UpdateCheck.WhenChanged)]
-        public int XmlTypeId { get; set; }
+        [Column(UpdateCheck=UpdateCheck.WhenChanged)]
+        public int Xml_TypeId { get; set; }
 
-        [Column(Name ="XmlFile", DbType = "NVarChar(MAX)", UpdateCheck = UpdateCheck.WhenChanged)]
+        [Column(UpdateCheck=UpdateCheck.WhenChanged)]
         public string XmlFile { get; set; }
 
     }

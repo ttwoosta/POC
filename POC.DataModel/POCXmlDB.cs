@@ -19,7 +19,7 @@ namespace POC.DataModel
             // get a typed table to run queries
             Table<POCXml> xmlTable = db.GetTable<POCXml>();
 
-            return xmlTable.Where(p => p.Id == pocId).Count();
+            return xmlTable.Where(p => p.Xml_Id == pocId).Count();
         }
 
         #region GET
@@ -31,7 +31,7 @@ namespace POC.DataModel
             Table<POCXml> xmlTable = db.GetTable<POCXml>();
 
             return (from xml in xmlTable
-                    orderby xml.Id
+                    orderby xml.Xml_Id
                     select xml).ToList();
         }
 
@@ -42,7 +42,7 @@ namespace POC.DataModel
             // get a typed table to run queries
             Table<POCXml> xmlTable = db.GetTable<POCXml>();
 
-            return (from xml in xmlTable where xml.Id == pocId select xml).First();
+            return (from xml in xmlTable where xml.Xml_Id == pocId select xml).First();
         }
         #endregion
 
@@ -51,15 +51,14 @@ namespace POC.DataModel
         {
             // insert statement
             const string INSERT_STATEMENT = "INSERT INTO ConversionXml " + 
-                "(Xml_Id, Xml_TypeId, XmlFile) VALUES " + 
-                "(@Id, @TypeId, @XmlFile)";
+                "(Xml_TypeId, XmlFile) VALUES " + 
+                "(@TypeId, @XmlFile)";
 
             // create insert command
             SqlCommand cmd = new SqlCommand(INSERT_STATEMENT);
 
             // add values to command
-            cmd.Parameters.AddWithValue("@Id", pXml.Id);
-            cmd.Parameters.AddWithValue("@TypeId", pXml.XmlTypeId);
+            cmd.Parameters.AddWithValue("@TypeId", pXml.Xml_TypeId);
             cmd.Parameters.Add(new SqlParameter("@XmlFile", SqlDbType.Xml) {
                 Value = pXml.XmlFile,
             });
@@ -122,8 +121,8 @@ namespace POC.DataModel
             SqlCommand cmd = new SqlCommand(UPDATE_STATEMENT);
 
             // add values to command
-            cmd.Parameters.AddWithValue("@Id", pXml.Id);
-            cmd.Parameters.AddWithValue("@TypeId", pXml.XmlTypeId);
+            cmd.Parameters.AddWithValue("@Id", pXml.Xml_Id);
+            cmd.Parameters.AddWithValue("@TypeId", pXml.Xml_TypeId);
             cmd.Parameters.Add(new SqlParameter("@XmlFile", SqlDbType.Xml)
             {
                 Value = pXml.XmlFile,

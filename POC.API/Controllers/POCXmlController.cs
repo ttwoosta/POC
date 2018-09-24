@@ -34,7 +34,7 @@ namespace POC.API.Controllers
             {
                 POCXml xml = new POCXml()
                 {
-                    XmlTypeId = model.Xml_TypeId,
+                    Xml_TypeId = model.Xml_TypeId,
                     XmlFile = model.XmlFile,
                 };
                 POCXmlDB.Insert(xml);
@@ -57,8 +57,8 @@ namespace POC.API.Controllers
             {
                 POCXml xml = new POCXml()
                 {
-                    Id = id,
-                    XmlTypeId = model.Xml_TypeId,
+                    Xml_Id = id,
+                    Xml_TypeId = model.Xml_TypeId,
                     XmlFile = model.XmlFile
                 };
                 POCXmlDB.Update(xml);

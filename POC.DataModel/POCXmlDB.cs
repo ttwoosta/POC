@@ -51,14 +51,13 @@ namespace POC.DataModel
         {
             // insert statement
             const string INSERT_STATEMENT = "INSERT INTO ConversionXml " + 
-                "(Xml_Id, Xml_TypeId, XmlFile) VALUES " + 
-                "(@Id, @TypeId, @XmlFile)";
+                "(Xml_TypeId, XmlFile) VALUES " + 
+                "(@TypeId, @XmlFile)";
 
             // create insert command
             SqlCommand cmd = new SqlCommand(INSERT_STATEMENT);
 
             // add values to command
-            cmd.Parameters.AddWithValue("@Id", pXml.Id);
             cmd.Parameters.AddWithValue("@TypeId", pXml.XmlTypeId);
             cmd.Parameters.Add(new SqlParameter("@XmlFile", SqlDbType.Xml) {
                 Value = pXml.XmlFile,

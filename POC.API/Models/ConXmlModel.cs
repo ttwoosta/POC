@@ -11,12 +11,12 @@ namespace POC.API.Models
 
         [Required]
         [Display(Name = "XML Type Id")]
-        public int XmlTypeId { get; set; }
+        public int Xml_TypeId { get; set; }
 
         [Required]
         [DataType(DataType.Html)]
         [Display(Name = "XML File")]
-        public string XMLFile { get; set; }
+        public string XmlFile { get; set; }
 
     }
 }

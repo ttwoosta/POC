@@ -1,0 +1,168 @@
+﻿
+
+@model POC_Web.ViewModel.ConversionXmlViewModel
+
+
+<script>
+
+
+	var url = "http://localhost:51274/api";
+
+	$(function () {
+		var request = $.ajax({
+			url: "Home/XmlFileTree",
+			data: {
+				id: $("#Xml_id").val()
+			},
+			method: "GET"
+		});
+		request.done(function (msg) {
+			var deleteButton = $("#gridDeleteSelected").dxButton({
+				text: "Edit Attributes",
+				height: 34,
+				width: 195,
+				disabled: true,
+				onClick: function () {
+					var a = $("#XmlFileTree").dxTreeList("instance").getSelectedRowsData();
+		
+					var AttrNames = a[0].AttributeName.split(";");
+					var AttrValues = a[0].AttributeValue.split(";");
+					var model = new Object();
+					var i;
+
+					for (i = 0; i < AttrValues.length; i++) {
+						model.AttributeName = AttrNames[i];
+						model.AttributeValue = AttrValues[i];
+					}
+
+					$("#popupContainer").dxPopup({
+						title: "Popup Title",
+						visible: true,
+						contentTemplate: "template1",
+					});
+				}
+			}).dxButton("instance");
+
+			 $("#XmlFileTree").dxTreeList({
+				dataSource: msg,
+				keyExpr: "NodeId",
+				parentIdExpr: "ParentId",
+				editing: {
+					mode: "popup",
+					allowUpdating: true,
+					allowDeleting: true,
+				},
+				selection: {
+					mode: "single"
+				},
+				onSelectionChanged: function (data) {
+					deleteButton.option("disabled", !data.selectedRowsData.length);
+				},
+				expandedRowKeys: [1],
+				showRowLines: true,
+				showBorders: true,
+				columnAutoWidth: true,
+				columns: [
+					{
+						dataField: "NodeId", allowEditing: false
+					},
+					{
+						dataField: "NodeName",
+						allowEditing: false
+					},
+					{
+						dataField: "NodeValue",
+						allowEditing: {}
+					}, {
+						dataField: "AttributeName",
+
+						validationRules: [{ type: "required" }]
+					},
+					{
+						dataField: "AttributeValue",
+
+						validationRules: [{ type: "required" }]
+					}
+				],
+				onEditorPreparing: function (e) {
+					if (e.dataField === "NodeValue" && e.value==null) {
+						e.editorOptions.disabled = true;
+						e.editorOptions.value = null;
+						e.allowEditing = false;
+					}
+					if (e.dataField === "AttributeName") {
+
+						var data = e.value.split(";");
+						console.log(data);
+						e.editorName = "dxTextArea";
+					}
+				}
+			});
+		});
+		request.fail(function (jqXHR, textStatus) {
+		});
+
+		$("#btnSaveTree").click(function () {
+			var menuInstance = $("#XmlFileTree").dxTreeList("instance");
+			var menuDataSource = menuInstance.option("dataSource");
+			
+			var model = {
+				Xml_id: $("#Xml_id").val(),
+				Xml_TypeId: $("#Xml_TypeId").val(),
+				XmlModel: menuDataSource,
+			};
+
+			console.log(model);
+			$.ajax({
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				url: "Home/UpdateXMLFile",
+				method: "Post",
+				data: JSON.stringify(model),
+				success: function (data) {
+					var type = data.value ? "success" : "success";
+					DevExpress.ui.notify("Updated sucessfully", type, 600);
+					$('#transactionGridContainer').dxDataGrid('instance').refresh();
+					$('#XmlFileTree').dxTreeList('instance').refresh();
+					$('#XmlFileTree').dxTreeList('instance').collapseRow(1);
+				}
+			});
+		});
+	});
+</script>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+	<div class="form-horizontal col-md-12">
+		<hr />
+		@Html.ValidationSummary(true)
+		@Html.HiddenFor(model => model.Xml_id)
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Xml_TypeId, "XML TYPE", new { @class = "control-label col-md-2 text-primary" })
+			<div class="col-md-4">
+				@Html.TextBoxFor(model => model.Xml_TypeId, new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.Xml_TypeId)
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-md-2 text-primary">XML File</label>
+			<div class="demo-container col-md-12">
+				<div id="gridDeleteSelected"></div>
+				<div id="popupContainer">
+					<div data-options="dxTemplate: { name: 'template1' }">
+					</div>
+				</div>
+				<div id="XmlFileTree"></div><div></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="button" id="btnSaveTree" value="Save" class="btn btn-primary" />
+			</div>
+		</div>
+	</div>
+
+
+}

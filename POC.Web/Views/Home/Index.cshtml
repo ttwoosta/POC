@@ -1,9 +1,61 @@
-@using POC_Web.Models
 
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Index";
 }
 
-<h2>Xml Conversion</h2>
 
+<script>
+
+	var url = "http://localhost:51274/api";
+
+	$(function () {
+			$("#transactionGridContainer").dxDataGrid({
+				dataSource: DevExpress.data.AspNet.createStore({
+					key: "Xml_id",
+					loadUrl: url + "/pocxml",
+				}),
+				selection: {
+					mode: "single"
+				},
+			});
+
+		
+
+		$("#editGrid").click(function () {
+			
+            var dataGrid = $('#transactionGridContainer').dxDataGrid('instance');
+			var selectId = dataGrid.getSelectedRowKeys();
+            $.ajax({
+				url: "@Url.Action("EditXmlFileForm")",
+				data: {
+					id: selectId[0]
+				},
+				type:'Get',
+				success: function (result) {
+					$("#formDiv").html(result);
+                }
+            });
+        });
+    });
+
+</script>
+
+
+
+<div class="container">
+	<h2>Add / Edit Xml File</h2>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="transaction-container">
+				<button id="editGrid" class="dx-button"> Edit</button>
+				<div id="transactionGridContainer">
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div id="formDiv">
+			</div>
+		</div>
+	</div>
+</div>
 

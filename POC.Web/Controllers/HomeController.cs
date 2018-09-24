@@ -26,10 +26,8 @@ namespace POC_Web.Controllers {
         public JsonResult XmlFileTree(int id)
         {
             XmlSerialization xs = new XmlSerialization();
-
             HttpResponseMessage resp = GlobalVariables.WebApiClient.GetAsync("api/pocxml/" + id.ToString()).Result;
             ConversionXmlViewModel model = resp.Content.ReadAsAsync<ConversionXmlViewModel>().Result;
-
              var xmlModel = xs.ProcessXml(model.XmlFile);
 
             List<XmlModel> list = new List<XmlModel>();

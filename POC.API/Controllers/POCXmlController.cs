@@ -15,16 +15,16 @@ namespace POC.API.Controllers
         // GET api/pocxml
         public IEnumerable<POCXml> Get()
         {
-            return POCLinqDB.Get();
+            return POCXmlDB.Get();
         }
 
         // GET api/pocxml/5
         public IHttpActionResult Get(int id)
         {
-            if (POCLinqDB.Count(id) == 0)
+            if (POCXmlDB.Count(id) == 0)
                 return NotFound();
             else
-                return Json(POCLinqDB.Get(id));
+                return Json(POCXmlDB.Get(id));
         }
 
         // POST api/pocxml
@@ -35,9 +35,9 @@ namespace POC.API.Controllers
                 POCXml xml = new POCXml()
                 {
                     XmlTypeId = model.XmlTypeId,
-                    XmlFile = model.XMLFile
+                    XmlFile = model.XMLFile,
                 };
-                POCLinqDB.Insert(xml);
+                POCXmlDB.Insert(xml);
                 return Ok();
             }
             else
@@ -49,7 +49,7 @@ namespace POC.API.Controllers
         // PUT api/pocxml/5
         public IHttpActionResult Put(int id, [FromBody]ConXmlModel model)
         {
-            if (POCLinqDB.Count(id) == 0)
+            if (POCXmlDB.Count(id) == 0)
                 return BadRequest(
                     string.Format("Conversion Xml entry for id {0} doest not exist", id));
 
@@ -61,7 +61,7 @@ namespace POC.API.Controllers
                     XmlTypeId = model.XmlTypeId,
                     XmlFile = model.XMLFile
                 };
-                POCLinqDB.Update(xml);
+                POCXmlDB.Update(xml);
                 return Ok();
             }
             else

@@ -42,8 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="POCConXmlDB.cs" />
-    <Compile Include="POCLinqDB.cs" />
+    <Compile Include="POCXmlDB.cs" />
     <Compile Include="POCXml.cs" />
     <Compile Include="POCDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

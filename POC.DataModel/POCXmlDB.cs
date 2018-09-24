@@ -1,92 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Linq;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace POC.DataModel
 {
-    public static class POCConXmlDB
+    public static class POCXmlDB
     {
-        const string kId = "Xml_Id";
-        const string kTypeId = "Xml_TypeId";
-        const string kXmlFile = "XmlFile";
-
-        #region GET
-        private static List<POCXml> Select(string selectStatement, SqlConnection sqlConnection)
+        public static int Count(int pocId)
         {
-            // return object
-            List<POCXml> pxmls = new List<POCXml>();
+            DataContext db = POCDB.POCDBContext();
 
-            // create a Select command
-            SqlCommand sqlCommand = new SqlCommand(selectStatement, sqlConnection);
+            // get a typed table to run queries
+            Table<POCXml> xmlTable = db.GetTable<POCXml>();
 
-            // read sql data
-            using (SqlDataReader reader = sqlCommand.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    POCXml xml = new POCXml();
-                    xml.Id = int.Parse(reader[kId].ToString());
-                    xml.XmlTypeId = int.Parse(reader[kTypeId].ToString());
-                    xml.XmlFile = reader[kXmlFile].ToString();
-
-                    // add to returned list
-                    pxmls.Add(xml);
-                }
-            }
-
-            // return the result
-            return pxmls;
+            return xmlTable.Where(p => p.Id == pocId).Count();
         }
 
-        public static List<POCXml> GetAll()
+        #region GET
+        public static List<POCXml> Get()
         {
-            const string SELECT_ALL = "SELECT * FROM ConversionXml";
+            DataContext db = POCDB.POCDBContext();
 
-            // request a new connection
-            SqlConnection conn = POCDB.GetNewSQLConnection();
+            // get a typed table to run queries
+            Table<POCXml> xmlTable = db.GetTable<POCXml>();
 
-            try
-            {
-                conn.Open();
-                return Select(SELECT_ALL, conn);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                conn.Close();
-                conn.Dispose();
-            }
+            return (from xml in xmlTable
+                    orderby xml.Id
+                    select xml).ToList();
         }
 
         public static POCXml Get(int pocId)
         {
-            string SELECT_STATEMENT = "SELECT * FROM ConversionXml " + 
-                "WHERE Xml_Id = " + pocId.ToString();
+            DataContext db = POCDB.POCDBContext();
 
-            // request a new connection
-            SqlConnection conn = POCDB.GetNewSQLConnection();
+            // get a typed table to run queries
+            Table<POCXml> xmlTable = db.GetTable<POCXml>();
 
-            try
-            {
-                conn.Open();
-                return Select(SELECT_STATEMENT, conn).First();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                conn.Close();
-                conn.Dispose();
-            }
+            return (from xml in xmlTable where xml.Id == pocId select xml).First();
         }
         #endregion
 
@@ -104,7 +60,9 @@ namespace POC.DataModel
             // add values to command
             cmd.Parameters.AddWithValue("@Id", pXml.Id);
             cmd.Parameters.AddWithValue("@TypeId", pXml.XmlTypeId);
-            cmd.Parameters.AddWithValue("@XmlFile", pXml.XmlFile);
+            cmd.Parameters.Add(new SqlParameter("@XmlFile", SqlDbType.Xml) {
+                Value = pXml.XmlFile,
+            });
 
             // return command
             return cmd;
@@ -157,7 +115,7 @@ namespace POC.DataModel
         {
             // update statement
             const string UPDATE_STATEMENT = "UPDATE ConversionXml " +
-                "SET (Xml_TypeId = @TypeId, XmlFile = @XmlFile) " +
+                "SET Xml_TypeId = @TypeId, XmlFile = @XmlFile " +
                 "WHERE Xml_Id = @Id";
 
             // create insert command
@@ -166,7 +124,10 @@ namespace POC.DataModel
             // add values to command
             cmd.Parameters.AddWithValue("@Id", pXml.Id);
             cmd.Parameters.AddWithValue("@TypeId", pXml.XmlTypeId);
-            cmd.Parameters.AddWithValue("@XmlFile", pXml.XmlFile);
+            cmd.Parameters.Add(new SqlParameter("@XmlFile", SqlDbType.Xml)
+            {
+                Value = pXml.XmlFile,
+            });
 
             // return command
             return cmd;

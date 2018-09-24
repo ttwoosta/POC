@@ -14,7 +14,7 @@ namespace POC.API.Models
         public int XmlTypeId { get; set; }
 
         [Required]
-        [DataType(DataType.MultilineText)]
+        [DataType(DataType.Html)]
         [Display(Name = "XML File")]
         public string XMLFile { get; set; }
 

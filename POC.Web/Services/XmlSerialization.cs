@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Xml;
 using System.Xml.Linq;
@@ -43,8 +44,28 @@ namespace POC_Web.Services
                             Attributes = elementAndIndexAndParent.Element.Attributes().ToList()
                         })
                 .ToList();
+            List<XmlModel> list = new List<XmlModel>();
+            foreach (var item in elementsWithIndexAndParentIndex)
+            {
+                XmlModel xmodel = new XmlModel();
+                xmodel.NodeId = item.NodeId;
+                xmodel.ParentId = item.ParentId;
+                xmodel.NodeName = item.NodeName;
+                xmodel.NodeValue = item.NodeValue;
+                StringBuilder attrName = new StringBuilder();
+                StringBuilder attrValue = new StringBuilder();
+                for (int i = 0; i < item.Attributes.Count; i++)
+                {
+                    attrName.Append(item.Attributes[i].Name.ToString() + ";");
+                    attrValue.Append(item.Attributes[i].Value.ToString() + ";");
 
-            return elementsWithIndexAndParentIndex;
+                }
+                xmodel.AttributeName = attrName.ToString();
+                xmodel.AttributeValue = attrValue.ToString();
+                list.Add(xmodel);
+            }
+
+            return list;
         }
 
 

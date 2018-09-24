@@ -29,29 +29,7 @@ namespace POC_Web.Controllers {
             HttpResponseMessage resp = GlobalVariables.WebApiClient.GetAsync("api/pocxml/" + id.ToString()).Result;
             ConversionXmlViewModel model = resp.Content.ReadAsAsync<ConversionXmlViewModel>().Result;
              var xmlModel = xs.ProcessXml(model.XmlFile);
-
-            List<XmlModel> list = new List<XmlModel>();
-            foreach (var item in xmlModel)
-            {
-                XmlModel xmodel = new XmlModel();
-                xmodel.NodeId = item.NodeId;
-                xmodel.ParentId = item.ParentId;
-                xmodel.NodeName = item.NodeName;
-                xmodel.NodeValue = item.NodeValue;
-                StringBuilder attrName = new StringBuilder();
-                StringBuilder attrValue = new StringBuilder();
-                for (int i = 0; i < item.Attributes.Count; i++)
-                {
-                    attrName.Append(item.Attributes[i].Name.ToString() + ";");
-                    attrValue.Append(item.Attributes[i].Value.ToString() + ";");
-
-                }
-                xmodel.AttributeName = attrName.ToString();
-                xmodel.AttributeValue = attrValue.ToString();
-                list.Add(xmodel);
-            }
-
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return Json(xmlModel, JsonRequestBehavior.AllowGet);
 
         }
 

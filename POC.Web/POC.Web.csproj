@@ -211,6 +211,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Toast\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -287,6 +288,7 @@
     <Compile Include="Services\XmlModel.cs" />
     <Compile Include="Services\XmlSerialization.cs" />
     <Compile Include="ViewModel\ConversionXmlViewModel.cs" />
+    <Compile Include="Controllers\ToastController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\POC.DataModel\POC.DataModel.csproj">

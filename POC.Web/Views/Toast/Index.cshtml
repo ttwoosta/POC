@@ -36,6 +36,14 @@
 
 
 <script>
+    // run the windowLoaded when the page loads
+    window.addEventListener("load", windowLoaded);
+
+    function windowLoaded() {
+        $("#navbar ul li").removeClass("active");
+        $("#toast-menu-item").addClass("active");
+    }
+
     $(function () {
         $("#normal").dxButton({
             text: "Warning",

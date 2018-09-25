@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Toast";
+}
+
+<h2>Toast - Pop-up Notification</h2>
+
+<div class="dx-viewport demo-container">
+    <div class="dx-fieldset">
+        <div class="dx-field">
+            <div class="dx-field-label">Warning</div>
+            <div class="dx-field-value">
+                <div id="normal"></div>
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-label">Success</div>
+            <div class="dx-field-value">
+                <div id="success"></div>
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-label">Info</div>
+            <div class="dx-field-value">
+                <div id="default"></div>
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-label">Error</div>
+            <div class="dx-field-value">
+                <div id="danger"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // run the windowLoaded when the page loads
+    window.addEventListener("load", windowLoaded);
+
+    function windowLoaded() {
+        $("#navbar ul li").removeClass("active");
+        $("#toast-menu-item").addClass("active");
+    }
+
+    $(function () {
+        $("#normal").dxButton({
+            text: "Warning",
+            type: "normal",
+            width: 90,
+            onClick: function (e) {
+                DevExpress.ui.notify("The Toast is displayed in Warning mode", "warning", 2000);
+            }
+        });
+
+        $("#success").dxButton({
+            text: "Apply",
+            type: "success",
+            width: 90,
+            onClick: function (e) {
+                DevExpress.ui.notify("The Toast is displayed in Success mode", "success", 2000);
+            }
+        });
+
+        $("#default").dxButton({
+            text: "Info",
+            type: "default",
+            width: 90,
+            onClick: function (e) {
+                DevExpress.ui.notify("The Toast is displayed in Info mode", "info", 2000);
+            }
+        });
+
+        $("#danger").dxButton({
+            text: "Delete",
+            type: "danger",
+            width: 90,
+            onClick: function (e) {
+                DevExpress.ui.notify("The Toast is displayed in Error mode", "error", 2000);
+            }
+        });
+    });
+
+    
+</script>
+
+
+<style>
+    .dx-viewport:not(.dx-theme-ios7) .dx-fieldset {
+        width: 420px;
+        margin: 30px auto;
+    }
+
+        .dx-viewport:not(.dx-theme-ios7) .dx-fieldset:first-child {
+            margin-top: 120px;
+        }
+
+    .dx-viewport:not(.dx-theme-ios7) .dx-fieldset-header {
+        font-size: 16px;
+    }
+
+    .dx-viewport:not(.dx-theme-ios7) .dx-field {
+        display: inline-block;
+        width: 24%;
+    }
+
+    .dx-viewport:not(.dx-theme-ios7) .dx-field-value:not(.dx-widget) > .dx-button {
+        float: none;
+    }
+
+    .dx-viewport:not(.dx-theme-ios7) .dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button),
+    .dx-viewport:not(.dx-theme-ios7) .dx-field-label {
+        float: none;
+        width: 100%;
+    }
+
+    .dx-viewport:not(.dx-theme-ios7) .dx-field-label {
+        padding-left: 0;
+    }
+</style>

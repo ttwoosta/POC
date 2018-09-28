@@ -10,7 +10,11 @@ using System.Web.Mvc;
 using System.Xml.Linq;
 
 namespace POC_Web.Controllers {
+    
+  
     public class HomeController : Controller {
+
+        [Authorize]
         public ActionResult Index() {
             return View();
         }

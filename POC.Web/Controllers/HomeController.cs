@@ -10,7 +10,11 @@ using System.Web.Mvc;
 using System.Xml.Linq;
 
 namespace POC_Web.Controllers {
+    
+  
     public class HomeController : Controller {
+
+        [Authorize]
         public ActionResult Index() {
             return View();
         }
@@ -50,6 +54,13 @@ namespace POC_Web.Controllers {
             }
            
 
+        }
+
+        public ActionResult Texteditor(int id)
+        {
+            HttpResponseMessage resp = GlobalVariables.WebApiClient.GetAsync("api/pocxml/" + id.ToString()).Result;
+            ConversionXmlViewModel model = resp.Content.ReadAsAsync<ConversionXmlViewModel>().Result;
+            return PartialView("_TextEditor", model);
         }
 
 

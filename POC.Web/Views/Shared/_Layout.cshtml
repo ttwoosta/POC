@@ -8,140 +8,71 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>POC WebApplication</title>
+    <title>POC_Web</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
     @Styles.Render("~/Content/bundle")
-
-    <link rel="stylesheet" type="text/css" href="~/Content/dx.common.css" />
-    <link rel="dx-theme" data-theme="generic.light" href="/Content/dx.light.css" data-active="true" />
-    <link rel="dx-theme" data-theme="generic.dark" href="/Content/dx.dark.css" data-active="false" />
-    <link rel="dx-theme" data-theme="carmine" href="~/Content/dx.carmine.css" data-active="false" />
-    <link rel="dx-theme" data-theme="contrast" href="~/Content/dx.contrast.css" data-active="false" />
-    <link rel="dx-theme" data-theme="darkmoon" href="~/Content/dx.darkmoon.css" data-active="false" />
-    <link rel="dx-theme" data-theme="darkviolet" href="~/Content/dx.darkviolet.css" data-active="false" />
-    <link rel="dx-theme" data-theme="greenmist" href="~/Content/dx.greenmist.css" data-active="false" />
-    <link rel="dx-theme" data-theme="blue.light" href="~/Content/dx.material.blue.light.css" data-active="false" />
-    <link rel="dx-theme" data-theme="lime.light" href="~/Content/dx.material.lime.light.css" data-active="false" />
-    <link rel="dx-theme" data-theme="orange.light" href="~/Content/dx.material.orange.light.css" data-active="false" />
-    <link rel="dx-theme" data-theme="purple.light" href="~/Content/dx.material.purple.light.css" data-active="false" />
-    <link rel="dx-theme" data-theme="teal.light" href="~/Content/dx.material.teal.light.css" data-active="false" />
-    <link rel="dx-theme" data-theme="softblue" href="~/Content/dx.softblue.css" data-active="false" />
-    <link rel="dx-theme" data-theme="spa" href="~/Content/dx.spa.css" data-active="false" />
-
-    <!-- <link rel="dx-theme" data-theme="teal.dark" href="~/Content/dx.material.teal.dark.css" data-active="false" />
-    <link rel="dx-theme" data-theme="bluesky.light" href="~/Content/dx.bluesky.light.custom.css" data-active="false" />
-    <link rel="dx-theme" data-theme="bluesky.dark" href="~/Content/dx.bluesky.dark.custom.css" data-active="false" />
-    DevExtreme scripts must go below the "dx-theme" links -->
-
+    @Styles.Render("~/Content/DevExtremeBundle")
     @Scripts.Render("~/Scripts/bundle")
     @Scripts.Render("~/Scripts/DevExtremeBundle")
 
+	<script>
+		var url = "http://localhost:9810/api";
+
+
+		function toastNotification(msg,type) {
+			DevExpress.ui.notify({
+				message:msg ,
+				type: type,
+				minHeight: 150,
+				deferRendering: true,
+				height: "auto",
+				width: 500,
+				displayTime: 2000,
+				position: {
+					at: 'right top',
+					offset: '-300 100'
+				},
+				closeOnClick: true,
+				collision: {
+					x: "flip", // horizontal collision handler
+					y: "none" // vertical collision handler
+				}
+			})
+		}
+
+	</script>
+
 </head>
 
-<body class="dx-datagrid">
+<body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container" style="display: flex; justify-content: space-between">
-            <div class="navbar-header" style="display: flex">
+        <div class="container">
+            <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">POC WebApplication</a>
+                <a class="navbar-brand" href="/">POC_Web</a>
             </div>
-            <div id="navbar" class="collapse navbar-collapse" style="display: flex">
-                <ul class="nav navbar-nav">
-                    <li id="home-menu-item" class="active"><a href="/Home">Home</a></li>
-                    <li id="about-menu-item"><a href="#about">About</a></li>
-                    <li id="toast-menu-item"><a href="/Toast">Toast Notification</a></li>
-                </ul>
-            </div>
-            <div style="flex-grow:1; text-align:center"></div>
-            <div id="themeDropDownBoxContainer" style="border: 1px"></div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#contact">Contact</a></li>
+				</ul>
+
+				@Html.Partial("_LoginPartial")
+			</div>
         </div>
     </nav>
 
-    <div id="body-container" class="container">
+    <div class="container">
         @RenderBody()
     </div>
-
-    <script>
-        "use strict";
-
-        // run the windowLoaded when the page loads
-        window.onload = function() {
-            console.log("window is loaded");
-            
-            var themeObj = [
-                { text: "Generic Light", value: "generic.light" },
-                { text: "Generic Dark", value: "generic.dark" },
-                { text: "Green Mist", value: "greenmist" },
-                { text: "Carmine", value: "carmine" },
-                { text: "Contrast", value: "contrast" },
-                { text: "Dark Moon", value: "darkmoon" },
-                { text: "Dark Violet", value: "darkviolet" },
-                { text: "Blue", value: "blue.light" },
-                { text: "Lime", value: "lime.light" },
-                { text: "Orange", value: "orange.light" },
-                { text: "Purple", value: "purple.light" },
-                { text: "Teal", value: "teal.light" },
-                { text: "Softblue", value: "softblue" },
-                { text: "Spa", value: "spa" },
-            ];
-
-            var currentThemeKey = localStorage.getItem("my_current_theme");
-            if (currentThemeKey == null)
-                currentThemeKey = themeObj[0].value;
-
-            // apply current theme
-            try {
-                DevExpress.ui.themes.current(currentThemeKey);
-            }
-            catch (e) {
-                DevExpress.ui.notify(e.message, "error", 2000);
-                DevExpress.ui.themes.current("generic.light");
-            }
-
-            $("#themeDropDownBoxContainer").attr("style", "width: 170px; margin: 10px").dxDropDownBox({
-
-                value: currentThemeKey,
-                valueExpr: "value",
-                displayExpr: "text",
-                dataSource: new DevExpress.data.DataSource({
-                    store: new DevExpress.data.ArrayStore({ data: themeObj, key: "value" }),
-                }),
-                dropDownOptions: {
-                    title: "Themes",
-                    showTitle: true,
-                    fullScreen: false,
-                    showCloseButton: true
-                },
-                contentTemplate: function (e) {
-                    var $list = $("<div>").dxList({
-                        dataSource: e.component.option("dataSource"),
-                        selectionMode: "single",
-                        onSelectionChanged: function (arg) {
-                            e.component.option("value", arg.addedItems[0].value);
-                            e.component.close();
-
-                            var strTheme = arg.addedItems[0].value.toLowerCase();
-
-                            $("#body-container").fadeOut("slow", function () {
-                                DevExpress.ui.themes.current(strTheme);
-                            }).fadeIn("slow");
-
-                            localStorage.setItem("my_current_theme", strTheme);
-                        }
-                    });
-                    return $list;
-                }
-            });
-
-        }
-    </script>
 </body>
 
 </html>

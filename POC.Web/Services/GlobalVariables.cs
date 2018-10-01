@@ -13,7 +13,7 @@ namespace POC_Web.Services
 
         static GlobalVariables()
         {
-            WebApiClient.BaseAddress = new Uri("http://localhost:51274/");
+            WebApiClient.BaseAddress = new Uri("http://localhost:9810/");
             WebApiClient.DefaultRequestHeaders.Clear();
             WebApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }

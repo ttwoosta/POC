@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Xml.Linq;
 
 namespace POC_Web.ViewModel
 {
@@ -11,7 +12,6 @@ namespace POC_Web.ViewModel
         public int Xml_id { get; set; }
         public int Xml_TypeId { get; set; }
         public string XmlFile { get; set; }
-
         public List<XmlModel> XmlModel { get; set; }
     }
 }

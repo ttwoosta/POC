@@ -20,3 +20,10 @@
 		#login .container #login-row #login-column .login-box #login-form #register-link {
 			margin-top: -105px;
 		}
+
+
+.textEditor {
+	min-width : 500px;
+	min-height:600px;
+
+}

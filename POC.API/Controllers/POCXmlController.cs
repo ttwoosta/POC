@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Results;
 
 namespace POC.API.Controllers
@@ -45,9 +46,9 @@ namespace POC.API.Controllers
                 return BadRequest("Data is invalid");
             }
         }
-
+        
         // PUT api/pocxml/5
-        public IHttpActionResult Put(int id, [FromBody]ConXmlModel model)
+        public IHttpActionResult Put([FromUri] Int32 id, [FromBody]ConXmlModel model)
         {
             if (POCXmlDB.Count(id) == 0)
                 return BadRequest(
@@ -68,6 +69,11 @@ namespace POC.API.Controllers
             {
                 return BadRequest("Data is invalid");
             }
+        }
+
+        public IHttpActionResult Options()
+        {
+            return Ok();
         }
     }
 }

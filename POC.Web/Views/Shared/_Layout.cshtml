@@ -15,6 +15,34 @@
     @Styles.Render("~/Content/DevExtremeBundle")
     @Scripts.Render("~/Scripts/bundle")
     @Scripts.Render("~/Scripts/DevExtremeBundle")
+
+	<script>
+		var url = "http://localhost:51274/api";
+
+
+		function toastNotification(msg,type) {
+			DevExpress.ui.notify({
+				message:msg ,
+				type: type,
+				minHeight: 150,
+				deferRendering: true,
+				height: "auto",
+				width: 500,
+				displayTime: 2000,
+				position: {
+					at: 'right top',
+					offset: '-300 100'
+				},
+				closeOnClick: true,
+				collision: {
+					x: "flip", // horizontal collision handler
+					y: "none" // vertical collision handler
+				}
+			})
+		}
+
+	</script>
+
 </head>
 
 <body>

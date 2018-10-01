@@ -1,13 +1,10 @@
 ﻿
-
+@using POC_Web.Models
 @model POC_Web.ViewModel.ConversionXmlViewModel
 
 
 <script>
-
-
-	var url = "http://localhost:51274/api";
-
+	
 	$(function () {
 		var request = $.ajax({
 			url: "Home/XmlFileTree",
@@ -103,15 +100,14 @@
 		});
 
 		$("#btnSaveTree").click(function () {
+			
 			var menuInstance = $("#XmlFileTree").dxTreeList("instance");
 			var menuDataSource = menuInstance.option("dataSource");
-			
 			var model = {
 				Xml_id: $("#Xml_id").val(),
 				Xml_TypeId: $("#Xml_TypeId").val(),
 				XmlModel: menuDataSource,
 			};
-			
 			$.ajax({
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
@@ -120,10 +116,12 @@
 				data: JSON.stringify(model),
 				success: function (data) {
 					var type = data.value ? "success" : "success";
-					DevExpress.ui.notify("Updated sucessfully", type, 600);
+					toastNotification("XML Updated Successfully ", '@ToastEnum.Success');
 					$('#transactionGridContainer').dxDataGrid('instance').refresh();
-					$('#XmlFileTree').dxTreeList('instance').refresh();
-					$('#XmlFileTree').dxTreeList('instance').collapseRow(1);
+
+				},
+				error: function (data) {
+					toastNotification("Error ", '@ToastEnum.Error');
 				}
 			});
 		});

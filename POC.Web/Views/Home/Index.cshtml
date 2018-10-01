@@ -1,3 +1,4 @@
+@using POC_Web.Models
 
 @{
 	ViewBag.Title = "Index";
@@ -5,8 +6,6 @@
 
 
 <script>
-
-	var url = "http://localhost:51274/api";
 
 	$(function () {
 			$("#transactionGridContainer").dxDataGrid({
@@ -17,12 +16,20 @@
 				selection: {
 					mode: "single"
 				},
-			});
+				columnMinWidth: 50,
+				columnFixing: {
+					enabled: true
+				},
 
-		
+		});
 
-		$("#editGrid").click(function () {
-			
+		var editButton = $("#btnEditXml").dxButton({
+			text: "Edit XML",
+			height: 34,
+			width: 195,
+			disabled: false,
+			type: "default",
+			onClick: function () {
             var dataGrid = $('#transactionGridContainer').dxDataGrid('instance');
 			var selectId = dataGrid.getSelectedRowKeys();
             $.ajax({
@@ -34,8 +41,37 @@
 				success: function (result) {
 					$("#formDiv").html(result);
                 }
-            });
-        });
+				 });
+
+			}
+		}).dxButton("instance");
+
+		var editwithTextEditor = $("#btnTextEditor").dxButton({
+			text: "Text Editor",
+			height: 34,
+			width: 195,
+			disabled: false,
+			type: "default",
+			onClick: function () {
+            var dataGrid = $('#transactionGridContainer').dxDataGrid('instance');
+			var selectId = dataGrid.getSelectedRowKeys();
+            $.ajax({
+				url: "@Url.Action("Texteditor")",
+				data: {
+					id: selectId[0]
+				},
+				type:'Get',
+				success: function (result) {
+					$("#formDiv").html(result);
+                }
+				 });
+
+			}
+		}).dxButton("instance");
+
+
+	//toastNotification("Successful",'@ToastEnum.Success');
+
     });
 </script>
 
@@ -44,11 +80,13 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="transaction-container">
-				<button id="editGrid" class="dx-button"> Edit</button>
+				<div id="btnEditXml"></div>
+				<div id="btnTextEditor"></div>
 				<div id="transactionGridContainer">
 				</div>
 			</div>
 		</div>
+
 		<div class="panel-body">
 			<div id="formDiv">
 			</div>

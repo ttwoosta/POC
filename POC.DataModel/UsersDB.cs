@@ -60,5 +60,47 @@ namespace POC.DataModel
             }
             return newUser;
         }
+
+        public static bool CreateUser(User newUser)
+        {
+            using (SqlConnection con = POCDB.GetNewSQLConnection())
+            {
+                try
+                {
+                    con.Open();
+                    // insert statement
+                    const string INSERT_STATEMENT = "INSERT INTO Users " +
+                        "(Name, Email,Password) VALUES " +
+                        "(@Name, @Email,@Password)";
+
+                    // create insert command
+                    SqlCommand cmd = new SqlCommand(INSERT_STATEMENT);
+                    // add values to command
+                    cmd.Parameters.AddWithValue("@Name", newUser.Name);
+                    cmd.Parameters.AddWithValue("@Email", newUser.Email);
+                    cmd.Parameters.AddWithValue("@Password", newUser.Password);
+                    cmd.Connection = con;
+
+                    // execute the command
+                    int result = cmd.ExecuteNonQuery();
+                    if (result >= 1)
+                    {
+                        return true;
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                    con.Dispose();
+                }
+
+            }
+        }
     }
 }

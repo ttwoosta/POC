@@ -25,5 +25,10 @@ namespace POC.API.Controllers
             else
                 return Json(user);
         }
+
+        public IHttpActionResult Post()
+        {
+            return Ok();
+        }
     }
 }

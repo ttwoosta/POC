@@ -47,5 +47,9 @@ namespace POC.DataModel.Services
             
         }
 
+        public bool CreateUser(User user)
+        {
+            return true;
+        }
     }
 }

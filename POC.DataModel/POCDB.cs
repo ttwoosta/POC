@@ -11,7 +11,7 @@ namespace POC.DataModel
 {
     public static class POCDB
     {
-        const string SqlExpConn = "Data Source=MA-SPRAJAPATI-L;Initial Catalog=POC;Integrated Security=True";
+        const string SqlExpConn = "Data Source=MA-PGUPTA-L;Initial Catalog=POC;Integrated Security=True";
 
         public static SqlConnection GetNewSQLConnection()
         {

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,7 +15,7 @@ namespace POC_Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserServices _userServices;
+        private readonly UserServices _userServices;
 
         public AccountController()
         {
@@ -34,11 +35,11 @@ namespace POC_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel user)
+        public async Task<ActionResult> Login(LoginViewModel user)
         {
             if (ModelState.IsValid)
             {
-                var selectedUser = _userServices.GetUserByEmail(user.Email);
+                var selectedUser = await _userServices.GetUserByEmailAsync(user.Email);
                 //check username and password from database, naive checking: 
                 //password should be in SHA
                 if (user != null && (selectedUser.Password == user.Password))

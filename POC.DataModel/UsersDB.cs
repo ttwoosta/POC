@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace POC.DataModel.Services
+namespace POC.DataModel
 {
-    public class UserServices : IUserServices
+    public static class UsersDB
     {
 
-        public IEnumerable<User> GetUsers()
+        public static IEnumerable<User> GetUsers()
         {
             List<User> lstuser = new List<User>();
             using (SqlConnection con = POCDB.GetNewSQLConnection())
             {
-                var sqlQuery = "Select * from User";
+                var sqlQuery = "SELECT * FROM Users";
                 SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
                 con.Open();
@@ -36,12 +36,13 @@ namespace POC.DataModel.Services
             return lstuser;
         }
 
-        public User GetUserByEmail(string email)
+        public static User GetUserByEmail(string email)
         {
             User newUser = new User();
+
             using (SqlConnection con = POCDB.GetNewSQLConnection())
             {
-                var sqlQuery = "Select * from Users where Email='"+email+"'";
+                var sqlQuery = "Select * from Users where Email='" + email + "'";
                 SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
                 con.Open();
@@ -59,6 +60,5 @@ namespace POC.DataModel.Services
             }
             return newUser;
         }
-
     }
 }

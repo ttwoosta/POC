@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
 using System.Data.Linq;
-using System.Data.Linq.Mapping;
+using System.Configuration;
 
 namespace POC.DataModel
 {
@@ -13,14 +8,24 @@ namespace POC.DataModel
     {
         const string SqlExpConn = "Data Source=MA-PGUPTA-L;Initial Catalog=POC;Integrated Security=True";
 
+        public static string SqlConnString()
+        {
+            ConnectionStringSettings connSett = 
+                ConfigurationManager.ConnectionStrings["ReleaseSQLServer"];
+            if (connSett == null)
+                return SqlExpConn;
+
+            return connSett.ConnectionString;
+        }
+
         public static SqlConnection GetNewSQLConnection()
         {
-            return new SqlConnection(SqlExpConn);
+            return new SqlConnection(SqlConnString());
         }
 
         public static DataContext POCDBContext()
         {
-            return new DataContext(SqlExpConn);
+            return new DataContext(SqlConnString());
         }
     }
 }

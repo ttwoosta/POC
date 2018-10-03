@@ -2,9 +2,6 @@
 using POC.DataModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace POC.API.Controllers
@@ -69,9 +66,6 @@ namespace POC.API.Controllers
             }
         }
 
-        public IHttpActionResult Options()
-        {
-            return Ok();
-        }
+      
     }
 }

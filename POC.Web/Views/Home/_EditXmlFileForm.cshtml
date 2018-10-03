@@ -7,7 +7,7 @@
 	
 	$(function () {
 		var request = $.ajax({
-			url: "Home/XmlFileTree",
+			url: "@Url.Action("XmlFileTree")",
 			data: {
 				id: $("#Xml_id").val()
 			},

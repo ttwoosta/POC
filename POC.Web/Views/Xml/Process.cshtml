@@ -1,0 +1,96 @@
+﻿
+@{
+	ViewBag.Title = "Process";
+}
+
+<script>
+	$(function () {
+
+		$("#processGridContainer").dxDataGrid({
+			dataSource: DevExpress.data.AspNet.createStore({
+				key: "Xml_Id",
+				loadUrl: url + "/pocxml"
+			}),
+			selection: {
+				mode: "multiple"
+			},
+			showBorders: true,
+			columns: [
+				{ dataField: "Xml_TypeId", caption: "XML Type", width: 100 },
+				{ dataField: "XmlFile", caption: "XML File" },
+			],
+			hoverStateEnabled: true,
+			dataField: "Xml_Id",
+			columnFixing: {
+				enabled: true
+			},
+
+		});
+
+
+		var processButton = $("#btnProcessXml").dxButton({
+			text: "Process XML",
+			height: 34,
+			width: 195,
+			disabled: false,
+			type: "default",
+			onClick: function () {
+			var dataGrid = $('#processGridContainer').dxDataGrid('instance');
+			var selectId = dataGrid.getSelectedRowKeys();
+				loadPanel.show();
+				console.log(selectId);
+
+            @*$.ajax({
+				url: "@Url.Action("EditXmlFileForm")",
+				data: {
+					id: selectId[0]
+				},
+				type:'Get',
+				success: function (result) {
+					$("#formDiv").html(result);
+                }
+				 });*@
+
+			}
+		}).dxButton("instance");
+
+
+		var loadPanel = $(".loadpanel").dxLoadPanel({
+			shadingColor: "rgba(0,0,0,0.4)",
+			position: { of: "#processGridContainer" },
+			visible: false,
+			showIndicator: true,
+			showPane: true,
+			shading: true,
+			closeOnOutsideClick: false,
+			onShown: function () {
+				setTimeout(function () {
+					loadPanel.hide();
+				}, 3000);
+			},
+			onHidden: function () {
+				
+			}
+		}).dxLoadPanel("instance");
+		
+
+	});
+</script>
+
+
+
+<div class="container" style="margin-top:80px;">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div id="btnProcessXml"></div>
+		</div>
+
+		<div class="panel-body">
+			<div class="loadpanel"></div>
+			<div class="process-container">
+				<div id="processGridContainer">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -4,22 +4,29 @@
 	ViewBag.Title = "Index";
 }
 
-
 <script>
 
 	$(function () {
-			$("#transactionGridContainer").dxDataGrid({
-				dataSource: DevExpress.data.AspNet.createStore({
-					key: "Xml_Id",
-					loadUrl: url + "/pocxml",
-				}),
-				selection: {
-					mode: "single"
-				},
-				columnMinWidth: 50,
-				columnFixing: {
-					enabled: true
-				},
+
+		
+		$("#transactionGridContainer").dxDataGrid({
+			dataSource: DevExpress.data.AspNet.createStore({
+				key: "Xml_Id",
+				loadUrl: url + "/pocxml"
+			}),
+			selection: {
+				mode: "single"
+			},
+			showBorders: true,
+			columns: [
+				{ dataField: "Xml_TypeId", caption: "XML Type", width: 100 },
+				{ dataField: "XmlFile", caption: "XML File" },
+			],
+			hoverStateEnabled: true,
+			dataField: "Xml_Id",
+			columnFixing: {
+				enabled: true
+			},
 
 		});
 
@@ -79,9 +86,12 @@
 	<h2>Add / Edit Xml File</h2>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<div class="transaction-container">
+			<div class="form-group">
 				<div id="btnEditXml"></div>
 				<div id="btnTextEditor"></div>
+			</div>
+
+			<div class="transaction-container">
 				<div id="transactionGridContainer">
 				</div>
 			</div>

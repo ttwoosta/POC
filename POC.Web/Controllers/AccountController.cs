@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin.Security;
+using POC.DataModel;
 using POC.DataModel.Services;
 using POC_Web.Services;
 using POC_Web.ViewModel;
@@ -86,6 +87,45 @@ namespace POC_Web.Controllers
 
             authManager.SignOut("ApplicationCookie");
             return RedirectToAction("Login");
+        }
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterViewModel newUser)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    Name = newUser.Name,
+                    Email = newUser.Email,
+                    Password = newUser.Password
+                };
+
+              var result = _userServices.CreateUser(user);
+                if(result)
+                {
+                    TempData["registerMessage"] = "You have been registered successfully. Please Login to System now.";
+                    return RedirectToAction("Login", "Account");
+                }
+                else
+                {
+                    ModelState.AddModelError("SingupError", result.ToString());
+                    return View();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("SingupError", "error");
+                return View();
+            }
+            
+         
         }
 
     }

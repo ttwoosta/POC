@@ -10,5 +10,6 @@ namespace POC.DataModel.Services
     {
         IEnumerable<User> GetUsers();
         User GetUserByEmail(string username);
+        Boolean CreateUser(User newUser);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -41,7 +42,7 @@ namespace POC.DataModel.Services
             User newUser = new User();
             using (SqlConnection con = POCDB.GetNewSQLConnection())
             {
-                var sqlQuery = "Select * from Users where Email='"+email+"'";
+                var sqlQuery = "Select * from Users where Email='" + email + "'";
                 SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
                 con.Open();
@@ -58,6 +59,48 @@ namespace POC.DataModel.Services
                 con.Close();
             }
             return newUser;
+        }
+
+        public bool CreateUser(User newUser)
+        {
+            using (SqlConnection con = POCDB.GetNewSQLConnection())
+            {
+                try
+                {
+                    con.Open();
+                    // insert statement
+                    const string INSERT_STATEMENT = "INSERT INTO Users " +
+                        "(Name, Email,Password) VALUES " +
+                        "(@Name, @Email,@Password)";
+
+                    // create insert command
+                    SqlCommand cmd = new SqlCommand(INSERT_STATEMENT);
+                    // add values to command
+                    cmd.Parameters.AddWithValue("@Name", newUser.Name);
+                    cmd.Parameters.AddWithValue("@Email", newUser.Email);
+                    cmd.Parameters.AddWithValue("@Password", newUser.Password);
+                    cmd.Connection = con;
+
+                    // execute the command
+                    int result = cmd.ExecuteNonQuery();
+                    if (result >= 1)
+                    {
+                        return true;
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                    con.Dispose();
+                }
+
+            }
         }
 
     }

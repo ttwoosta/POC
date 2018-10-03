@@ -4,7 +4,7 @@
 }
 
 #login .container #login-row #login-column .login-box {
-	margin-top: 120px;
+	margin-top: 50px;
 	max-width: 600px;
 	min-height: 380px;
 	border: 1px solid #9C9C9C;
@@ -27,3 +27,30 @@
 	min-height:600px;
 
 }
+
+
+h1 {
+	position: relative;
+	text-align: center;
+}
+
+	h1 span {
+		background: #fff;
+		padding: 0 15px;
+		position: relative;
+		z-index: 1;
+	}
+
+	h1:before {
+		background: #ddd;
+		content: "";
+		display: block;
+		height: 1px;
+		position: absolute;
+		top: 50%;
+		width: 100%;
+	}
+
+	h1:before {
+		left: 0;
+	}

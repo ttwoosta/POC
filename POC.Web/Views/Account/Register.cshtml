@@ -1,0 +1,85 @@
+﻿@model POC_Web.ViewModel.RegisterViewModel
+@{
+	ViewBag.Title = "Register";
+}
+
+<div id="login">
+	<div class="container">
+		<div id="login-row" class="row justify-content-center align-items-center">
+			<div id="login-column" class="col-md-6">
+				<div class="login-box col-md-12">
+
+					@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+					{
+
+						using (Html.DevExtreme().ValidationGroup())
+						{
+
+							@Html.AntiForgeryToken()
+					<div class="dx-fieldset">
+
+						<div class="dx-fieldset-header"><h1><span>Register</span></h1></div>
+						@(Html.DevExtreme().ValidationSummary().ID("summary"))
+						<div class="dx-field">
+							@Html.ValidationMessage("SingupError", new { @class = "text-danger" })
+						</div>
+
+						<div class="dx-field">
+							<div class="dx-field-label">
+								@Html.LabelFor(m => m.Name)
+							</div>
+							<div class="dx-field-value">
+								@Html.DevExtreme().TextBoxFor(m => m.Name)
+							</div>
+						</div>
+
+						<div class="dx-field">
+							<div class="dx-field-label">
+								@Html.LabelFor(m => m.Email)
+							</div>
+							<div class="dx-field-value">
+								@Html.DevExtreme().TextBoxFor(m => m.Email)
+							</div>
+						</div>
+						<div class="dx-field">
+							<span class="dx-field-label">
+								@Html.LabelFor(m => m.Password)
+							</span>
+							<div class="dx-field-value">
+								@(Html.DevExtreme().TextBoxFor(m => m.Password).Mode(TextBoxMode.Password))
+							</div>
+						</div>
+
+						<div class="dx-field">
+							<span class="dx-field-label">
+								@Html.LabelFor(m => m.ConfirmPassword)
+							</span>
+							<div class="dx-field-value">
+								@(Html.DevExtreme().TextBoxFor(m => m.ConfirmPassword).Mode(TextBoxMode.Password))
+							</div>
+						</div>
+
+						<div class="dx-fieldset col-md-12">
+							@(Html.DevExtreme().Button().ID("button").Text("Register").Type(ButtonType.Success).UseSubmitBehavior(true))
+
+						</div>
+
+					</div>
+
+
+						}
+					}
+
+
+
+				</div>
+
+			</div>
+			<div class="col-md-6">
+				<h3 class="text-center text-info" style="margin-top:250px;">
+					POC XML Conversion
+				</h3>
+			</div>
+		</div>
+	</div>
+</div>

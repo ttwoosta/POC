@@ -66,9 +66,6 @@ namespace POC.API.Controllers
             }
         }
 
-        public IHttpActionResult Options()
-        {
-            return Ok();
-        }
+      
     }
 }

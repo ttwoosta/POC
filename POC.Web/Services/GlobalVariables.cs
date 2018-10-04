@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,7 +14,8 @@ namespace POC_Web.Services
 
         static GlobalVariables()
         {
-            WebApiClient.BaseAddress = new Uri("http://localhost:9810/");
+            string url = ConfigurationManager.AppSettings["ApiUrl"];
+            WebApiClient.BaseAddress = new Uri(url);
             WebApiClient.DefaultRequestHeaders.Clear();
             WebApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }

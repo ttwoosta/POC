@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
@@ -17,7 +18,8 @@ namespace POC.DataModel.Services
         public UserServices()
         {
             // Update port # in the following line.
-            client.BaseAddress = new Uri("http://localhost:9810/");
+            string url = ConfigurationManager.AppSettings["ApiUrl"];
+            client.BaseAddress = new Uri(url);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));

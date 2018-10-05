@@ -8,7 +8,6 @@
 
 	$(function () {
 
-		
 		$("#transactionGridContainer").dxDataGrid({
 			dataSource: DevExpress.data.AspNet.createStore({
 				key: "Xml_Id",
@@ -27,6 +26,18 @@
 			columnFixing: {
 				enabled: true
 			},
+			onContentReady: function (e) {
+				var dataGrid = $('#transactionGridContainer').dxDataGrid('instance');
+				   $.ajax({
+				url: "@Url.Action("Texteditor")",
+				data: {
+					id: dataGrid.getKeyByRowIndex(0)
+				},
+				type:'Get',
+				success: function (result) {
+					$("#formDiv").html(result);
+				}});
+			}
 
 		});
 
@@ -70,11 +81,11 @@
 				type:'Get',
 				success: function (result) {
 					$("#formDiv").html(result);
-                }
-				 });
-
+				}});
 			}
 		}).dxButton("instance");
+
+	
 
 
 	//toastNotification("Successful",'@ToastEnum.Success');
@@ -82,25 +93,28 @@
     });
 </script>
 
-<div class="container">
-	<h2>Add / Edit Xml File</h2>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="form-group">
-				<div id="btnEditXml"></div>
-				<div id="btnTextEditor"></div>
-			</div>
 
-			<div class="transaction-container">
-				<div id="transactionGridContainer">
-				</div>
+<div class="left-side">
+		<div class="form-group">
+			@*<div id="btnEditXml"></div>*@
+			<div id="btnTextEditor"></div>
+		</div>
+		<div class="transaction-container">
+			<div id="transactionGridContainer">
 			</div>
 		</div>
+</div>
 
+<div class="right-side">
+	<h4>XML Editor</h4>
 		<div class="panel-body">
 			<div id="formDiv">
 			</div>
 		</div>
-	</div>
 </div>
+
+
+
+
+
 

@@ -13,5 +13,19 @@ namespace POC_Web.ViewModel
         public int Xml_TypeId { get; set; }
         public string XmlFile { get; set; }
         public List<XmlModel> XmlModel { get; set; }
+
+        public IEnumerable<Element> XmlElements { get; set; }
     }
+
+    public class ElementCollection
+    {
+
+        public IEnumerable<Element> Element { get; set; }
+    }
+    public class Element
+    {
+        public string Name { get; set; }
+        public bool hasText { get; set; }
+    }
+
 }

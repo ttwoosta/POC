@@ -1,4 +1,5 @@
-﻿using POC_Web.ViewModel;
+﻿using Newtonsoft.Json;
+using POC_Web.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,6 +118,33 @@ namespace POC_Web.Services
             }
 
         }
+
+
+       
+        public IEnumerable<Element> GetAllUniqueElements(string xmlFile)
+        {
+            XmlDocument doc = new XmlDocument();
+            var xml =
+                    XElement.Parse(xmlFile);
+
+            var allElementNames =
+                          (from e  in xml.Descendants()
+                             select e.Name).Distinct();
+
+            IEnumerable<Element> el = xml.Descendants().Select(a => new
+            {
+                Name = a.Name.ToString(),
+                hasText = a.HasElements == true ? false : true
+
+            }).Distinct().Select(b => new Element {
+                Name = b.Name,
+                hasText=b.hasText
+            });
+            
+            return el;
+        }
+
+
 
 
     }

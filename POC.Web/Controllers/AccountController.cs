@@ -1,12 +1,7 @@
 ﻿using Microsoft.Owin.Security;
 using POC.DataModel;
-using POC.DataModel.Services;
 using POC_Web.Services;
 using POC_Web.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;

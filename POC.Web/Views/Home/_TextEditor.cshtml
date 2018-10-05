@@ -5,46 +5,82 @@
 
 <script>
 	$(function () {
+		function createDocSpec(collapse) {
+		var model = '@Html.Raw(Json.Encode(Model.XmlElements))';
+		var data = JSON.parse(model);
+		var spec = {};
+			spec['elements'] = {};
 
-		var docSpec = {
-			
-		}; 
+			for (var i = 0; i < data.length; i++) {
+				spec.elements[data[i].Name] = {
+					'hasText': function (jsElement) {
+						if (jsElement.hasElements()) {
+							return false;
+						}
+						else {
+							return true;
+						}
+					},
+					collapsed: function (jsElement) {
+						if (collapse) {
+							return true;
+						}
+						else {
+							return false;
+						}
+					}
+
+				}
+
+			}
+			return spec;
+		}
+
+		
 		var xml = $("#XmlFile").val();
 		var editor = document.getElementById("TextEditor");
-		Xonomy.render(xml, editor, docSpec);
+		Xonomy.render(xml, editor, createDocSpec(true));
+		
+		$("#switch-on").dxSwitch({
+			value: true,
+			onValueChanged: function (data) {
+				Xonomy.render(xml, editor, createDocSpec(data.value));
+				
+			}
+		});
 
-		$("#btnSaveXML").click(function () {
-
-			var xmlharvest = Xonomy.harvest(); 
-			
+			$("#btnSaveXML").click(function () {
+			var xmlharvest = Xonomy.harvest();
 			var myData = {
 				Xml_TypeId: $("#Xml_TypeId").val(),
 				XmlFile: xmlharvest
 			}
-			
-			
 			$.ajax({
-				url: url + "/pocxml/" + $("#Xml_id").val(),
+			  url: url + "/pocxml/" + $("#Xml_id").val(),
 				type: "PUT",
 				data: JSON.stringify(myData),
 				crossDomain: true,
 				contentType: "application/json",
 				success: function(result) {
-					toastNotification("XML Updated Successful",'@ToastEnum.Success');
-				},
+					  toastNotification("XML Updated Successful",'@ToastEnum.Success');
+				  },
 				error: function (result) {
-					toastNotification("Error",'@ToastEnum.Error');
-				}
-			});
+					  toastNotification("Error",'@ToastEnum.Error');
+				  }
+			  });
 		});
-		 
+
 	})
-	
+
 </script>
 
-	@Html.AntiForgeryToken()
+@Html.AntiForgeryToken()
 <div class="form-horizontal col-md-12">
-	<hr />
+	<div class="form-group">
+		<label class="control-label col-md-2 text-primary">Collapse</label>
+		<div class="col-md-4" id="switch-on"></div>
+	</div>
+
 	@Html.ValidationSummary(true)
 	@Html.HiddenFor(model => model.Xml_id)
 	@Html.HiddenFor(model => model.XmlFile)
@@ -57,13 +93,9 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<div class="demo-container" style="border:1px solid #99d7ef; padding:20px;">
-			<div id="TextEditor">
-			</div>
+		<div id="TextEditor" class="textEditor">
 		</div>
 	</div>
-
-
 	<div class="form-group">
 		<div class="col-md-offset-2 col-md-10">
 			<input type="button" id="btnSaveXML" value="Save" class="btn btn-primary" />

@@ -22,7 +22,7 @@ namespace POC_Web.Services
 
         public static string ApiEndpoint()
         {
-            string value = ConfigurationManager.AppSettings["ApiEndpoint"];
+            string value = ConfigurationManager.AppSettings["ApiUrl"];
             return value;
         }
     }

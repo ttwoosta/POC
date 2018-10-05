@@ -16,7 +16,7 @@ namespace POC_Web.Services
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
             IEnumerable<User> users = null;
-            HttpResponseMessage response = await GlobalVariables.WebApiClient.GetAsync(@"users");
+            HttpResponseMessage response = await GlobalVariables.WebApiClient.GetAsync(@"/api/users");
             if (response.IsSuccessStatusCode)
             {
                 users = await response.Content.ReadAsAsync<IEnumerable<User>>();
@@ -28,7 +28,7 @@ namespace POC_Web.Services
         {
             User user = null;
 
-            HttpResponseMessage response = await GlobalVariables.WebApiClient.GetAsync(@"users/?email=" + email);
+            HttpResponseMessage response = await GlobalVariables.WebApiClient.GetAsync(@"/api/users/?email=" + email);
             if (response.IsSuccessStatusCode)
             {
                 user = await response.Content.ReadAsAsync<User>();

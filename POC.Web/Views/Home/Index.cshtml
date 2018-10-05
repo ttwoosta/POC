@@ -13,7 +13,6 @@
 				key: "Xml_Id",
 				loadUrl: url + "/pocxml"
 			}),
-			
 			selection: {
 				mode: "single"
 			},
@@ -27,20 +26,18 @@
 			columnFixing: {
 				enabled: true
 			},
-			@*onContentReady: function (e) {
+			onContentReady: function (e) {
 				var dataGrid = $('#transactionGridContainer').dxDataGrid('instance');
-				//console.log(dataGrid.getKeyByRowIndex(1));
-			
 				   $.ajax({
 				url: "@Url.Action("Texteditor")",
 				data: {
-					id: selectId
+					id: dataGrid.getKeyByRowIndex(0)
 				},
 				type:'Get',
 				success: function (result) {
 					$("#formDiv").html(result);
 				}});
-			}*@
+			}
 
 		});
 

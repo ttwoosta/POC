@@ -1,4 +1,4 @@
-﻿
+﻿@using POC_Web.Models
 @{
 	ViewBag.Title = "Process";
 }
@@ -38,8 +38,6 @@
 			var dataGrid = $('#processGridContainer').dxDataGrid('instance');
 			var selectId = dataGrid.getSelectedRowKeys();
 				loadPanel.show();
-				console.log(selectId);
-
             @*$.ajax({
 				url: "@Url.Action("EditXmlFileForm")",
 				data: {
@@ -66,6 +64,7 @@
 			onShown: function () {
 				setTimeout(function () {
 					loadPanel.hide();
+				toastNotification("The Xml is successfully Processed",'@ToastEnum.Success');
 				}, 3000);
 			},
 			onHidden: function () {

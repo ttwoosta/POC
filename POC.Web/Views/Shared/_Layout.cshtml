@@ -19,7 +19,6 @@
 	<script>
 		var url = "http://localhost:9810/api";
 
-
 		function toastNotification(msg,type) {
 			DevExpress.ui.notify({
 				message:msg ,
@@ -60,7 +59,8 @@
             </div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
+					<li class="active"><a href="@Url.Action("index", "home")">Home</a></li>
+					<li><a href="@Url.Action("Process", "xml")">Process</a></li>
 					<li><a href="#about">About</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
@@ -70,7 +70,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container-fluid" style="margin-top:60px;">
         @RenderBody()
     </div>
 </body>

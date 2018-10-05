@@ -17,7 +17,7 @@
     @Scripts.Render("~/Scripts/DevExtremeBundle")
 
 	<script>
-		var url = "http://localhost:9810/api";
+		var url = "@System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]api";
 
 		function toastNotification(msg,type) {
 			DevExpress.ui.notify({

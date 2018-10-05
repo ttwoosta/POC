@@ -72,6 +72,9 @@ h1 {
 
 .right-side {
 	margin-left: 450px;
+	color: #848484;
+	font-size: 16px;
+	font-weight: normal;
 }
 
 
@@ -83,4 +86,9 @@ h1 {
 	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.1);
 	padding: 10px;
 	box-sizing: border-box;
+}
+
+.container-fluid .btn-holder {
+	justify-content: flex-end;
+	display: flex;
 }

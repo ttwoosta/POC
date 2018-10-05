@@ -28,16 +28,31 @@
 			},
 			onContentReady: function (e) {
 				var dataGrid = $('#transactionGridContainer').dxDataGrid('instance');
-				   $.ajax({
-				url: "@Url.Action("Texteditor")",
-				data: {
-					id: dataGrid.getKeyByRowIndex(0)
-				},
-				type:'Get',
-				success: function (result) {
-					$("#formDiv").html(result);
-				}});
-			}
+				$.ajax({
+					url: "@Url.Action("Texteditor")",
+					data: {
+						id: dataGrid.getKeyByRowIndex(0)
+					},
+					type: 'Get',
+					success: function (result) {
+						$("#formDiv").html(result);
+					}
+				});
+			},
+			onRowClick: function (e) {
+				var dataGrid = $('#transactionGridContainer').dxDataGrid('instance');
+				var selectId = dataGrid.getSelectedRowKeys();
+				$.ajax({
+					url: "@Url.Action("Texteditor")",
+					data: {
+						id: selectId[0]
+					},
+					type: 'Get',
+					success: function (result) {
+						$("#formDiv").html(result);
+					}
+				});
+			},
 
 		});
 
@@ -96,8 +111,9 @@
 
 <div class="left-side">
 		<div class="form-group">
+			<h4>Xml Files</h4>
 			@*<div id="btnEditXml"></div>*@
-			<div id="btnTextEditor"></div>
+			@*<div id="btnTextEditor"></div>*@
 		</div>
 		<div class="transaction-container">
 			<div id="transactionGridContainer">
@@ -106,11 +122,8 @@
 </div>
 
 <div class="right-side">
-	<h4>XML Editor</h4>
-		<div class="panel-body">
 			<div id="formDiv">
 			</div>
-		</div>
 </div>
 
 

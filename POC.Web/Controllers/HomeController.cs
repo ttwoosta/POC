@@ -60,6 +60,9 @@ namespace POC_Web.Controllers {
         {
             HttpResponseMessage resp = GlobalVariables.WebApiClient.GetAsync("api/pocxml/" + id.ToString()).Result;
             ConversionXmlViewModel model = resp.Content.ReadAsAsync<ConversionXmlViewModel>().Result;
+            XmlSerialization xs = new XmlSerialization();
+            var elements = xs.GetAllUniqueElements(model.XmlFile);
+            model.XmlElements = elements;
             return PartialView("_TextEditor", model);
         }
 

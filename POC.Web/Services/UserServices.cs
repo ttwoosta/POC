@@ -37,9 +37,11 @@ namespace POC_Web.Services
             
         }
 
-        public bool CreateUser(User user)
+        public async Task<bool> CreateUserAsync(User user)
         {
-            return true;
+            HttpResponseMessage response = 
+                await GlobalVariables.WebApiClient.PostAsJsonAsync(@"/api/users", user);
+            return response.IsSuccessStatusCode;
         }
     }
 }

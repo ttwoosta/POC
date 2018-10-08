@@ -1,4 +1,5 @@
-﻿using POC.DataModel;
+﻿using POC.API.Models;
+using POC.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,22 @@ namespace POC.API.Controllers
                 return Json(user);
         }
 
-        public IHttpActionResult Post()
+        public IHttpActionResult Post([FromBody]UserModel userModel)
         {
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                User user = new User()
+                {
+                    Name = userModel.Name,
+                    Email = userModel.Email,
+                    Password = userModel.Password,
+                };
+
+                if (UsersDB.CreateUser(user))
+                    return Ok();
+            }
+
+            return BadRequest("Data is invalid");
         }
     }
 }

@@ -92,7 +92,7 @@ namespace POC_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterViewModel newUser)
+        public async Task<ActionResult> Register(RegisterViewModel newUser)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace POC_Web.Controllers
                     Password = newUser.Password
                 };
 
-              var result = _userServices.CreateUser(user);
+                var result = await _userServices.CreateUserAsync(user);
                 if(result)
                 {
                     TempData["registerMessage"] = "You have been registered successfully. Please Login to System now.";

@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Manage users";
+}
+
+<h2>Manage Users</h2>
+
+<div id="usersGridView" class="container"></div>
+
+<script>
+    // run the windowLoaded when the page loads
+    window.addEventListener("load", windowLoaded);
+
+    function windowLoaded() {
+
+        $("#usersGridView").dxDataGrid({
+            dataSource: DevExpress.data.AspNet.createStore({
+                key: "Id",
+                loadUrl: url + "/users/",
+                insertUrl: url + "/users/",
+                updateUrl: url + "/users/",
+                deleteUrl: url + "/users/",
+                
+                onBeforeSend: function (method, ajax) {
+                    ajax.contentType = "application/json";
+                    ajax.xhrFields = { withCredentials: false };
+
+                    if (method == "insert" || method == "update" || method == "delete") {
+                        ajax.url = ajax.url + ajax.data.key;
+                        ajax.data = ajax.data["values"];
+                        ajax.dataType = "json";
+                    }
+                }
+            }),
+            keyExpr: true,
+            columns: [
+                {
+                    dataField: "Id",
+                },
+                {
+                    dataField: "Name",
+                },
+                {
+                    dataField: "Email",
+                },
+                {
+                    dataField: "Password",
+                    visible: false,
+                }
+            ],
+            editing: {
+                mode: "row",
+                allowUpdating: true,
+                allowDeleting: true,
+                allowAdding: true,
+            }
+
+        });
+    }
+
+ </script>

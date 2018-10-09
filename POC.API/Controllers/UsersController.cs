@@ -18,6 +18,15 @@ namespace POC.API.Controllers
         }
 
         // GET api/users/?email=sujan@gmail.com
+        public IHttpActionResult Get(int Id)
+        {
+            if (UsersDB.CountUserById(Id) > 0)
+                return Json(UsersDB.GetUserById(Id));
+            else
+                return NotFound();
+        }
+
+        // GET api/users/?email=sujan@gmail.com
         public IHttpActionResult Get(string email)
         {
             User user = UsersDB.GetUserByEmail(email);
@@ -43,6 +52,25 @@ namespace POC.API.Controllers
             }
 
             return BadRequest("Data is invalid");
+        }
+
+        public IHttpActionResult Put (int Id, [FromBody]UserModel userModel)
+        {
+            if (UsersDB.CountUserById(Id) > 0)
+            {
+                User user = UsersDB.GetUserById(Id);
+                if (userModel.Email != null)
+                    user.Email = userModel.Email;
+                if (userModel.Name != null)
+                    user.Name = userModel.Name;
+
+                if (UsersDB.Update(user))
+                    return Json(user);
+                else
+                    return BadRequest("Data is invalid");
+            }
+            else
+                return NotFound();
         }
     }
 }

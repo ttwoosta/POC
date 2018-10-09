@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -31,9 +32,22 @@ namespace POC.DataModel
 
                     lstuser.Add(user);
                 }
+
                 con.Close();
             }
             return lstuser;
+        }
+
+        public static User GetUserById(int Id)
+        {
+            Table<User> table = POCDB.POCDBContext().GetTable<User>();
+            return table.Where(u => u.Id == Id).First();
+        }
+
+        public static int CountUserById(int Id)
+        {
+            Table<User> table = POCDB.POCDBContext().GetTable<User>();
+            return table.Where(u => u.Id == Id).Count();
         }
 
         public static User GetUserByEmail(string email)
@@ -100,6 +114,45 @@ namespace POC.DataModel
                     con.Dispose();
                 }
 
+            }
+        }
+
+        public static bool Update(User user)
+        {
+            SqlConnection con = POCDB.GetNewSQLConnection();
+
+            try
+            {
+                con.Open();
+                // insert statement
+                const string UPDATE_STATEMENT = "UPDATE Users" +
+                    "  SET Name=@Name, Email=@Email, Password=@Password" +
+                    "  WHERE Id=@Id";
+
+                // create insert command
+                SqlCommand cmd = new SqlCommand(UPDATE_STATEMENT);
+                // add values to command
+                cmd.Parameters.AddWithValue("@Id", user.Id);
+                cmd.Parameters.AddWithValue("@Name", user.Name);
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Connection = con;
+
+                // execute the command
+                int result = cmd.ExecuteNonQuery();
+                if (result >= 1)
+                    return true;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
             }
         }
     }

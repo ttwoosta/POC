@@ -123,6 +123,11 @@ namespace POC_Web.Controllers
             
          
         }
+        
+        public ActionResult Manage()
+        {
+            return View();
+        }
 
     }
 }

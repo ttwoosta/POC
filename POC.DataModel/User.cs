@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace POC.DataModel
 {
-    [Table(Name = "dbo.User")]
+    [Table(Name = "dbo.Users")]
     public class User
     {
         

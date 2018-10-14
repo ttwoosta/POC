@@ -28,6 +28,9 @@ namespace POC_Web {
             styleBundle
                 .Include("~/Content/Site.css");
 
+            styleBundle
+                .Include("~/Content/poc_styles.css");
+
             // Xonomy styles and Js
             scriptBundle
               .Include("~/Content/xonomy-3.5.0/xonomy.js");

@@ -46,7 +46,54 @@
 
 <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <header>
+        <nav class="navbar navbar-light fixed-top bg-light flex-md-nowrap p-0 shadow" style="visibility:visible">
+            <a id="brandingbar" 
+            class="navbar-brand text-center col-sm-3 col-md-2 mr-0" 
+            href="#">POC Webapp</a>
+            
+            <button type="button" class="btn btn-sm" id="sidebar-toggler" >
+                <span class="caret">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 8 8" 
+                    fill="solid" stroke="currentColor" stroke-width="0.5" stroke-linecap="round" 
+                    stroke-linejoin="round" class="feather-users">
+                        <path d="M0 0v1h8v-1h-8zm0 2.97v1h8v-1h-8zm0 3v1h8v-1h-8z" transform="translate(0 1)" />
+                    </svg>
+                </span>
+            </button>
+
+            <ul class="nav navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link" href="@Url.Action("index", "home")">Home</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link" href="@Url.Action("process", "xml")">Process XML</a>
+                </li>
+            </ul>
+            <div style="flex-grow:15; text-align:center"></div>
+
+            <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </span>
+
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Manage account</a></li>
+                <li><a href="#">Something else</a></li>
+
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Signout</a></li>
+            </ul>
+            <div style="flex-grow:1; text-align:center"></div>
+        </nav>
+    </header>
+    
+
+    <nav class="navbar navbar-inverse navbar-fixed-top bg-light flex-md-nowrap p-0 shadow" style="visibility:hidden">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -57,21 +104,26 @@
                 </button>
                 <a class="navbar-brand" href="/">POC_Web</a>
             </div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="@Url.Action("index", "home")">Home</a></li>
-					<li><a href="@Url.Action("Process", "xml")">Process</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="/account/manage">Users</a></li>
-				</ul>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="@Url.Action("index", "home")">Home</a></li>
+                    <li><a href="@Url.Action("Process", "xml")">Process</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="/account/manage">Users</a></li>
+                </ul>
 
-				@Html.Partial("_LoginPartial")
-			</div>
+                @Html.Partial("_LoginPartial")
+            </div>
         </div>
     </nav>
 
     <div class="container-fluid" style="margin-top:60px;">
-        @RenderBody()
+        @Html.Partial("_NavigationPartial")
+
+        <main role="main" id="main-container" class="main-container">
+            @RenderBody()
+        </main>
+       
     </div>
 </body>
 

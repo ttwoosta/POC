@@ -13,29 +13,8 @@ namespace POC.DataModel
 
         public static IEnumerable<User> GetUsers()
         {
-            List<User> lstuser = new List<User>();
-            using (SqlConnection con = POCDB.GetNewSQLConnection())
-            {
-                var sqlQuery = "SELECT * FROM Users";
-                SqlCommand cmd = new SqlCommand(sqlQuery, con);
-
-                con.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-
-                while (rdr.Read())
-                {
-                    User user = new User();
-                    user.Id = Convert.ToInt32(rdr["Id"]);
-                    user.Name = rdr["Name"].ToString();
-                    user.Email = rdr["Email"].ToString();
-                    user.Password = rdr["Password"].ToString();
-
-                    lstuser.Add(user);
-                }
-
-                con.Close();
-            }
-            return lstuser;
+            Table<User> table = POCDB.POCDBContext().GetTable<User>();
+            return table.OrderBy(u => u.Id);
         }
 
         public static User GetUserById(int Id)
@@ -75,49 +54,27 @@ namespace POC.DataModel
             return newUser;
         }
 
-        public static bool CreateUser(User newUser)
+        public static bool Update(User user)
         {
-            using (SqlConnection con = POCDB.GetNewSQLConnection())
-            {
-                try
-                {
-                    con.Open();
-                    // insert statement
-                    const string INSERT_STATEMENT = "INSERT INTO Users " +
-                        "(Name, Email,Password) VALUES " +
-                        "(@Name, @Email,@Password)";
-
-                    // create insert command
-                    SqlCommand cmd = new SqlCommand(INSERT_STATEMENT);
-                    // add values to command
-                    cmd.Parameters.AddWithValue("@Name", newUser.Name);
-                    cmd.Parameters.AddWithValue("@Email", newUser.Email);
-                    cmd.Parameters.AddWithValue("@Password", newUser.Password);
-                    cmd.Connection = con;
-
-                    // execute the command
-                    int result = cmd.ExecuteNonQuery();
-                    if (result >= 1)
-                    {
-                        return true;
-                    }
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                    con.Dispose();
-                }
-
-            }
+            DataContext db = POCDB.POCDBContext();
+            Table<User> table = db.GetTable<User>();
+            User currentUser = table.Where(u => u.Id == user.Id).First();
+            currentUser.Name = user.Name;
+            currentUser.Email = user.Email;
+            db.SubmitChanges();
+            return true;
         }
 
-        public static bool Update(User user)
+        public static bool Create(User newUser)
+        {
+            DataContext db = POCDB.POCDBContext();
+            Table<User> table = db.GetTable<User>();
+            table.InsertOnSubmit(newUser);
+            db.SubmitChanges();
+            return true;
+        }
+
+        public static bool Delete(int Id)
         {
             SqlConnection con = POCDB.GetNewSQLConnection();
 
@@ -125,17 +82,13 @@ namespace POC.DataModel
             {
                 con.Open();
                 // insert statement
-                const string UPDATE_STATEMENT = "UPDATE Users" +
-                    "  SET Name=@Name, Email=@Email, Password=@Password" +
+                const string UPDATE_STATEMENT = "DELETE FROM Users" +
                     "  WHERE Id=@Id";
 
                 // create insert command
                 SqlCommand cmd = new SqlCommand(UPDATE_STATEMENT);
                 // add values to command
-                cmd.Parameters.AddWithValue("@Id", user.Id);
-                cmd.Parameters.AddWithValue("@Name", user.Name);
-                cmd.Parameters.AddWithValue("@Email", user.Email);
-                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@Id", Id);
                 cmd.Connection = con;
 
                 // execute the command

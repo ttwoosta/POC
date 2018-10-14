@@ -2,9 +2,6 @@
 using POC.DataModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace POC.API.Controllers
@@ -47,8 +44,8 @@ namespace POC.API.Controllers
                     Password = userModel.Password,
                 };
 
-                if (UsersDB.CreateUser(user))
-                    return Ok();
+                if (UsersDB.Create(user))
+                    return Json(user);
             }
 
             return BadRequest("Data is invalid");
@@ -68,6 +65,15 @@ namespace POC.API.Controllers
                     return Json(user);
                 else
                     return BadRequest("Data is invalid");
+            }
+            else
+                return NotFound();
+        }
+
+        public IHttpActionResult Delete(int Id)
+        {
+            if (UsersDB.Delete(Id)) {
+                return Json(new User() { Id = Id });
             }
             else
                 return NotFound();

@@ -1,17 +1,26 @@
 ﻿using POC.API.Models;
 using POC.DataModel;
+using POC.DataModel.Abstract;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace POC.API.Controllers
 {
     public class POCXmlController : ApiController
     {
+        private IXmlRepository _xmlRepo;
+
+        public POCXmlController(IXmlRepository xmlRepository)
+        {
+            _xmlRepo = xmlRepository;
+        }
+
         // GET api/pocxml
         public IEnumerable<POCXml> Get()
         {
-            return POCXmlDB.Get();
+            return _xmlRepo.xmls.OrderBy(x => x.Xml_Id);
         }
 
         // GET api/pocxml/5

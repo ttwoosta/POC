@@ -10,14 +10,19 @@ namespace POC.DataModel
 {
     public class POCXmlRepository : IXmlRepository
     {
+        private DataContext _db;
+
+        public POCXmlRepository()
+        {
+            _db = POCDB.POCDBContext();
+        }
+
         public IEnumerable<POCXml> xmls
         {
             get
             {
-                DataContext db = POCDB.POCDBContext();
-
                 // get a typed table to run queries
-                Table<POCXml> xmlTable = db.GetTable<POCXml>();
+                Table<POCXml> xmlTable = _db.GetTable<POCXml>();
 
                 return xmlTable.AsEnumerable();
             }

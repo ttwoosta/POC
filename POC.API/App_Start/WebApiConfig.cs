@@ -18,7 +18,8 @@ namespace POC.API
         {
             // Web API configuration and services
             var container = new UnityContainer();
-            container.RegisterType<IXmlRepository, POCXmlRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IXmlRepository, POCXmlRepository>(
+                new PerThreadLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
 
             // Web API routes

@@ -26,10 +26,10 @@ namespace POC.API.Controllers
         // GET api/pocxml/5
         public IHttpActionResult Get(int id)
         {
-            if (POCXmlDB.Count(id) == 0)
+            if (_xmlRepo.xmls.Count(x => x.Xml_Id == id) == 0)
                 return NotFound();
             else
-                return Json(POCXmlDB.Get(id));
+                return Json(_xmlRepo.xmls.Where(x => x.Xml_Id == id).First());
         }
 
         // POST api/pocxml
